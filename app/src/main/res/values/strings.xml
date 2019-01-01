@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">DynamicViewCreate</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_another_test">AnotherTest</string>
+    <string name="hint">hint</string>
+</resources>
