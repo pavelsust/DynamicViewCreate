@@ -62,31 +62,24 @@ public class AnotherTest extends AppCompatActivity {
         new getData().execute();
     }
 
-
-
-    private void loadJSONDate(JSONObject jsonObject){
-
+    private void loadJSONDate(JSONObject json){
+        jsonObject = json;
         LinearLayout viewProductLayout = (LinearLayout) findViewById(R.id.customOptionLL);
-
-
         try {
-            //jsonObject = new JSONObject(  , AnotherTest.this);
 
-            JSONArray customOptnList = jsonObject.getJSONArray("product_options");
-
+            JSONArray customOptnList = json.getJSONArray("product_options");
             for (int noOfCustomOpt = 0; noOfCustomOpt < customOptnList.length(); noOfCustomOpt++) {
 
+
                 JSONObject eachData = customOptnList.getJSONObject(noOfCustomOpt);
-
-
                 TextView customOptionsName = new TextView(AnotherTest.this);
                 customOptionsName.setTextSize(18);
                 customOptionsName.setPadding(0, 15, 0, 15);
                 customOptionsName.setText(eachData.getString(Constant.OPTION_NAME));
                 viewProductLayout.addView(customOptionsName);
 
-                if (eachData.getString(Constant.TYPE).equals(Constant.SPINNER)) {
 
+                if (eachData.getString(Constant.TYPE).equals(Constant.SPINNER)) {
                     final JSONArray dropDownJSONOpt = eachData.getJSONArray("variants");
                     ArrayList<String> SpinnerOptions = new ArrayList<String>();
 
@@ -216,7 +209,6 @@ public class AnotherTest extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
     public void getDataFromDynamicViews(View v) {
         try {
             JSONArray customOptnList = jsonObject.getJSONArray("product_options");
@@ -232,13 +224,6 @@ public class AnotherTest extends AppCompatActivity {
                     optionsObj.put(eachData.getString(Constant.OPTION_NAME),
                             "" + variant_name);
                 }
-
-                /*
-                if (eachData.getString("option_type").equals("E")){
-                    EditText editText = (EditText) allViewInstance.get(noOfViews);
-
-                }
-                */
 
 
                 if (eachData.getString(Constant.TYPE).equals(Constant.RADIOBUTTON)) {
@@ -317,55 +302,5 @@ public class AnotherTest extends AppCompatActivity {
             Log.d("JSON_RESPONSE" , ""+jsonObject.toString());
             loadJSONDate(jsonObject);
         }
-    }
-
-
-
-    private String readJSON(String fileName, Context context) {
-        StringBuilder returnString = new StringBuilder();
-        InputStream fIn = null;
-        InputStreamReader isr = null;
-        BufferedReader input = null;
-        try {
-            fIn = context.getResources().getAssets().open(fileName);
-            isr = new InputStreamReader(fIn);
-            input = new BufferedReader(isr);
-            String line;
-            while ((line = input.readLine()) != null) {
-                returnString.append(line);
-            }
-        } catch (Exception e) {
-            e.getMessage();
-        } finally {
-            try {
-                if (isr != null) isr.close();
-                if (fIn != null) fIn.close();
-                if (input != null) input.close();
-            } catch (Exception e2) {
-                e2.getMessage();
-            }
-        }
-        return returnString.toString();
-    }
-
-    protected String HTTPGetCall(String WebMethodURL) throws IOException, MalformedURLException {
-        StringBuilder response = new StringBuilder();
-
-        //Prepare the URL and the connection
-        URL u = new URL(WebMethodURL);
-        HttpURLConnection conn = (HttpURLConnection) u.openConnection();
-        if (conn.getResponseCode() == HttpURLConnection.HTTP_OK)
-        {
-            //Get the Stream reader ready
-            BufferedReader input = new BufferedReader(new InputStreamReader(conn.getInputStream()),8192);
-
-            //Loop through the return data and copy it over to the response object to be processed
-            String line = null;
-            while ((line = input.readLine()) != null) {
-                response.append(line);
-            }
-            input.close();
-        }
-        return response.toString();
     }
 }
