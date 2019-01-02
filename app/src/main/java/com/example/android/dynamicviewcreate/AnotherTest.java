@@ -54,6 +54,8 @@ public class AnotherTest extends AppCompatActivity {
     List<View> allViewInstance = new ArrayList<View>();
     JSONObject jsonObject = new JSONObject();
     private JSONObject optionsObj;
+    List<String> stringList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class AnotherTest extends AppCompatActivity {
         LinearLayout viewProductLayout = (LinearLayout) findViewById(R.id.customOptionLL);
         try {
 
-            JSONArray customOptnList = json.getJSONArray("product_options");
+            JSONArray customOptnList = json.getJSONArray("success");
             for (int noOfCustomOpt = 0; noOfCustomOpt < customOptnList.length(); noOfCustomOpt++) {
 
 
@@ -80,11 +82,11 @@ public class AnotherTest extends AppCompatActivity {
 
 
                 if (eachData.getString(Constant.TYPE).equals(Constant.SPINNER)) {
-                    final JSONArray dropDownJSONOpt = eachData.getJSONArray("variants");
+                    final JSONArray dropDownJSONOpt = eachData.getJSONArray(Constant.VALUES);
                     ArrayList<String> SpinnerOptions = new ArrayList<String>();
 
                     for (int j = 0; j < dropDownJSONOpt.length(); j++) {
-                        String optionString = dropDownJSONOpt.getJSONObject(j).getString("variant_name");
+                        String optionString = dropDownJSONOpt.getJSONObject(j).getString(Constant.NAME);
                         SpinnerOptions.add(optionString);
                     }
 
@@ -100,7 +102,7 @@ public class AnotherTest extends AppCompatActivity {
                         @Override
                         public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                             try {
-                                String variant_name = dropDownJSONOpt.getJSONObject(position).getString("variant_name");
+                                String variant_name = dropDownJSONOpt.getJSONObject(position).getString(Constant.NAME);
                                 Toast.makeText(getApplicationContext(), variant_name + "", Toast.LENGTH_LONG).show();
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -124,7 +126,7 @@ public class AnotherTest extends AppCompatActivity {
                     params.topMargin = 3;
                     params.bottomMargin = 3;
 
-                    final JSONArray radioButtonJSONOpt = eachData.getJSONArray("variants");
+                    final JSONArray radioButtonJSONOpt = eachData.getJSONArray(Constant.VALUES);
                     RadioGroup rg = new RadioGroup(AnotherTest.this); //create the RadioGroup
                     allViewInstance.add(rg);
 
@@ -136,11 +138,11 @@ public class AnotherTest extends AppCompatActivity {
                         if (j == 0)
                             rb.setChecked(true);
                         rb.setLayoutParams(params);
-                        rb.setTag(radioButtonJSONOpt.getJSONObject(j).getString("variant_name"));
+                        rb.setTag(radioButtonJSONOpt.getJSONObject(j).getString(Constant.NAME));
 
                         rb.setBackgroundColor(Color.parseColor("#FFFFFF"));
 
-                        String optionString = radioButtonJSONOpt.getJSONObject(j).getString("variant_name");
+                        String optionString = radioButtonJSONOpt.getJSONObject(j).getString(Constant.NAME);
                         rb.setText(optionString);
 
 
@@ -163,29 +165,29 @@ public class AnotherTest extends AppCompatActivity {
 
 
                 if (eachData.getString(Constant.TYPE).equals(Constant.CHECKBOX)) {
-
-
-                    JSONArray checkBoxJSONOpt = eachData.getJSONArray("variants");
-
+                    JSONArray checkBoxJSONOpt = eachData.getJSONArray(Constant.VALUES);
                     for (int j = 0; j < checkBoxJSONOpt.length(); j++) {
 
-                        if (!(checkBoxJSONOpt.getJSONObject(j).getString("variant_name").equalsIgnoreCase("NO"))) {
+                        //if (!(checkBoxJSONOpt.getJSONObject(j).getString("variant_name").equalsIgnoreCase("NO"))) {
                             CheckBox chk = new CheckBox(AnotherTest.this);
                             chk.setBackgroundColor(Color.parseColor("#FFFFFF"));
                             allViewInstance.add(chk);
-                            chk.setTag(checkBoxJSONOpt.getJSONObject(j).getString("variant_name"));
+
+
+                            chk.setTag(checkBoxJSONOpt.getJSONObject(j).getString(Constant.NAME));
                             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                             params.topMargin = 3;
                             params.bottomMargin = 3;
-                            String optionString = checkBoxJSONOpt.getJSONObject(j).getString("variant_name");
-
+                            String optionString = checkBoxJSONOpt.getJSONObject(j).getString(Constant.NAME);
 
                             chk.setOnClickListener(new View.OnClickListener() {
 
                                 @Override
                                 public void onClick(View v) {
                                     String variant_name = v.getTag().toString();
-                                    Toast.makeText(getApplicationContext(), variant_name + "", Toast.LENGTH_LONG).show();
+                                    stringList.add(variant_name);
+
+                                    //Toast.makeText(getApplicationContext(), variant_name + "", Toast.LENGTH_LONG).show();
                                 }
                             });
 
@@ -193,7 +195,7 @@ public class AnotherTest extends AppCompatActivity {
                             chk.setText(optionString);
                             viewProductLayout.addView(chk, params);
                         }
-                    }
+                    //}
                 }
 
                 if (eachData.getString(Constant.TYPE).equals(Constant.EDITTEXT)) {
@@ -211,16 +213,16 @@ public class AnotherTest extends AppCompatActivity {
     }
     public void getDataFromDynamicViews(View v) {
         try {
-            JSONArray customOptnList = jsonObject.getJSONArray("product_options");
+            JSONArray customOptnList = jsonObject.getJSONArray("success");
             optionsObj = new JSONObject();
             for (int noOfViews = 0; noOfViews < customOptnList.length(); noOfViews++) {
                 JSONObject eachData = customOptnList.getJSONObject(noOfViews);
 
                 if (eachData.getString(Constant.TYPE).equals(Constant.SPINNER)) {
                     Spinner spinner = (Spinner) allViewInstance.get(noOfViews);
-                    JSONArray dropDownJSONOpt = eachData.getJSONArray("variants");
-                    String variant_name = dropDownJSONOpt.getJSONObject(spinner.getSelectedItemPosition()).getString("variant_name");
-                    Log.d("variant_name", variant_name + "");
+                    JSONArray dropDownJSONOpt = eachData.getJSONArray(Constant.VALUES);
+                    String variant_name = dropDownJSONOpt.getJSONObject(spinner.getSelectedItemPosition()).getString(Constant.NAME);
+                    Log.d(Constant.NAME, variant_name + "");
                     optionsObj.put(eachData.getString(Constant.OPTION_NAME),
                             "" + variant_name);
                 }
@@ -229,7 +231,7 @@ public class AnotherTest extends AppCompatActivity {
                 if (eachData.getString(Constant.TYPE).equals(Constant.RADIOBUTTON)) {
                     RadioGroup radioGroup = (RadioGroup) allViewInstance.get(noOfViews);
                     RadioButton selectedRadioBtn = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
-                    Log.d("variant_name", selectedRadioBtn.getTag().toString() + "");
+                    Log.d(Constant.NAME, selectedRadioBtn.getTag().toString() + "");
                     optionsObj.put(eachData.getString(Constant.OPTION_NAME),
                             "" + selectedRadioBtn.getTag().toString());
                 }
@@ -237,10 +239,18 @@ public class AnotherTest extends AppCompatActivity {
 
                 if (eachData.getString(Constant.TYPE).equals(Constant.CHECKBOX)) {
                     CheckBox tempChkBox = (CheckBox) allViewInstance.get(noOfViews);
-                    if (tempChkBox.isChecked()) {
-                        optionsObj.put(eachData.getString(Constant.OPTION_NAME), tempChkBox.getTag().toString());
-                    }
-                    Log.d("variant_name", tempChkBox.getTag().toString() + "");
+
+                    //if (tempChkBox.isChecked()) {
+                        //optionsObj.put(eachData.getString(Constant.OPTION_NAME), tempChkBox.getTag().toString());
+                    //}
+
+                    optionsObj.put(eachData.getString(Constant.OPTION_NAME), stringList.toString());
+
+
+                    Toast.makeText(AnotherTest.this, ""+tempChkBox.getTag().toString(), Toast.LENGTH_SHORT).show();
+
+
+                    Log.d(Constant.NAME, tempChkBox.getTag().toString() + "");
                 }
 
 
@@ -250,7 +260,7 @@ public class AnotherTest extends AppCompatActivity {
                         optionsObj.put(eachData.getString(Constant.OPTION_NAME), textView.getText().toString());
                     else
                         optionsObj.put(eachData.getString(Constant.OPTION_NAME), textView.getText().toString());
-                    Log.d("variant_name", textView.getText().toString() + "");
+                    Log.d(Constant.NAME, textView.getText().toString() + "");
                 }
 
             }
@@ -282,7 +292,7 @@ public class AnotherTest extends AppCompatActivity {
 
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
-            String url = "http://dream71.com/biman_bangladesh/public/sample.json";
+            String url = "http://o1bazaar.com/jewel.json";
             String jsonStr = sh.makeServiceCall(url);
 
             if (jsonStr != null) {

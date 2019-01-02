@@ -8,4 +8,7 @@ public class Constant {
     public static final String EDITTEXT = "text";
     public static final String TYPE = "type";
     public static final String OPTION_NAME = "name";
+    public static final String VALUES = "values";
+    public static final String NAME = "name";
+
 }
