@@ -1,8 +1,10 @@
 {
-	"product_options": [{
-		"option_type": "R",
+	"product_options":
+	[{
+		"type": "radio",
 		"value": 62,
-		"option_name": "Accessories",
+		"name": "Accessories",
+
 		"variants": [{
 			"variant_id": "62",
 			"position": "1",
@@ -18,14 +20,10 @@
 		]
 	},
 
-
-
-
-
 		{
-			"option_type": "S",
+			"type": "select",
 			"value": 55,
-			"option_name": "Labisa",
+			"name": "Labisa",
 			"variants": [{
 				"variant_id": "55",
 				"variant_name": "White",
@@ -79,9 +77,9 @@
 
 
 		{
-			"option_type": "S",
+			"type": "select",
 			"value": 55,
-			"option_name": "Color",
+			"name": "Color",
 			"variants": [{
 				"variant_id": "55",
 				"variant_name": "White",
@@ -136,9 +134,9 @@
 
 
 		{
-			"option_type": "C",
+			"type": "checkbox",
 			"value": 54,
-			"option_name": "3G Connectivity",
+			"name": "3G Connectivity",
 			"variants": [{
 				"variant_id": "54",
 				"variant_name": "NO",
@@ -161,10 +159,11 @@
 
 
 
+
 		{
-			"option_type": "R",
+			"type": "radio",
 			"value": 54,
-			"option_name": "5G Connectivity",
+			"name": "5G Connectivity",
 			"variants": [{
 				"variant_id": "54",
 				"variant_name": "NO",
@@ -187,9 +186,9 @@
 
 
 		{
-			"option_type": "S",
+			"type": "select",
 			"value": 49,
-			"option_name": "Memory capacity",
+			"name": "Memory capacity",
 			"variants": [{
 				"variant_id": "49",
 				"variant_name": "16GB",
@@ -224,10 +223,11 @@
 				}
 			]
 		},
+
 		{
-			"option_type": "T",
+			"type": "text",
 			"value": 42,
-			"option_name": "Comment"
+			"name": "Brand Name"
 		}
 	]
 }
