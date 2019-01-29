@@ -1,7 +1,7 @@
 # DynamicViewCreate
 dynamc json view
 
-##
+```gradle
 {
   "success": [
     {
@@ -75,3 +75,4 @@ dynamc json view
     }
   ]
 }
+```
