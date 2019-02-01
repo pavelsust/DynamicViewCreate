@@ -2,6 +2,7 @@ package com.example.android.dynamicviewcreate;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -43,13 +44,6 @@ import java.util.List;
 
 public class AnotherTest extends AppCompatActivity {
 
-//    R stands RadioGroup
-//    S stands Spinner
-//    C stands Checkbox
-//    T stands TextView
-
-    //    String viewTypes[] = {"R", "S", "C", "T"};
-
 
     List<View> allViewInstance = new ArrayList<View>();
     JSONObject jsonObject = new JSONObject();
@@ -69,7 +63,7 @@ public class AnotherTest extends AppCompatActivity {
         LinearLayout viewProductLayout = (LinearLayout) findViewById(R.id.customOptionLL);
         try {
 
-            JSONArray customOptnList = json.getJSONArray("success");
+            JSONArray customOptnList = json.getJSONArray("data");
             for (int noOfCustomOpt = 0; noOfCustomOpt < customOptnList.length(); noOfCustomOpt++) {
 
 
@@ -198,6 +192,7 @@ public class AnotherTest extends AppCompatActivity {
                     //}
                 }
 
+                /*
                 if (eachData.getString(Constant.TYPE).equals(Constant.EDITTEXT)) {
                     TextInputLayout til = new TextInputLayout(AnotherTest.this);
                     til.setHint(getString(R.string.hint));
@@ -206,6 +201,31 @@ public class AnotherTest extends AppCompatActivity {
                     allViewInstance.add(et);
                     viewProductLayout.addView(til);
                 }
+
+                */
+
+
+                if (eachData.getString(Constant.TYPE).equals(Constant.EDITTEXT)) {
+                    //TextInputLayout til = new TextInputLayout(getActivity());
+                    //til.setHint(""+eachData.getString(Constant.LABEL));
+                    EditText et = new EditText(getApplicationContext());
+                    et.setHint("" + eachData.getString(Constant.TYPE));
+                    et.setPadding(20, 40, 0, 40);
+
+                    // Initialize a new GradientDrawable instance
+                    GradientDrawable gd = new GradientDrawable();
+                    gd.setColor(Color.parseColor("#ffffff"));
+                    gd.setCornerRadius(3);
+
+                    gd.setStroke(2, getResources().getColor(R.color.colorAccent));
+                    et.setBackground(gd);
+
+
+                    //til.addView(et);
+                    allViewInstance.add(et);
+                    viewProductLayout.addView(et);
+                }
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -213,7 +233,7 @@ public class AnotherTest extends AppCompatActivity {
     }
     public void getDataFromDynamicViews(View v) {
         try {
-            JSONArray customOptnList = jsonObject.getJSONArray("success");
+            JSONArray customOptnList = jsonObject.getJSONArray("data");
             optionsObj = new JSONObject();
             for (int noOfViews = 0; noOfViews < customOptnList.length(); noOfViews++) {
                 JSONObject eachData = customOptnList.getJSONObject(noOfViews);
@@ -263,6 +283,8 @@ public class AnotherTest extends AppCompatActivity {
                     Log.d(Constant.NAME, textView.getText().toString() + "");
                 }
 
+
+
             }
 
             String outputData = (optionsObj + "").replace(",", "\n");
@@ -292,7 +314,7 @@ public class AnotherTest extends AppCompatActivity {
 
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
-            String url = "http://o1bazaar.com/jewel.json";
+            String url = "http://bollywoodgaana.com/test/dynamic.json";
             String jsonStr = sh.makeServiceCall(url);
 
             if (jsonStr != null) {
